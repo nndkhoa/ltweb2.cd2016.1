@@ -1,5 +1,5 @@
 {
-  "name": "D04",
+  "name": "src",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,9 +14,7 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",
-    "http-errors": "^1.7.2",
     "morgan": "^1.9.1",
-    "multer": "^1.4.1",
     "mysql": "^2.16.0"
   }
 }
