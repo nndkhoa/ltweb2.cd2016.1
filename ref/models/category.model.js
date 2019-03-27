@@ -5,12 +5,20 @@ module.exports = {
     return db.load('select * from categories');
   },
 
+  allWithDetails: () => {
+    return db.load(`
+      select c.CatID, c.CatName, count(p.ProID) as num_of_products
+      from categories c left join products p on c.CatID = p.CatID
+      group by c.CatID, c.CatName
+    `);
+  },
+
   single: id => {
     return db.load(`select * from categories where CatID = ${id}`);
   },
 
   /**
-   * @param {*} entity { CatName: ... }
+   * @param {*} entity { CatName }
    */
   add: entity => {
     return db.add('categories', entity);
@@ -20,8 +28,6 @@ module.exports = {
    * @param {*} entity { CatID, CatName }
    */
   update: entity => {
-    var id = entity.CatID;
-    delete entity.CatID;
-    return db.update('categories', 'CatID', entity, id);
+    return db.update('categories', 'CatID', entity);
   }
 };

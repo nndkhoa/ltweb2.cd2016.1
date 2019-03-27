@@ -40,19 +40,25 @@ module.exports = {
     });
   },
 
-  update: (tableName, idField, entity, id) => {
+  update: (tableName, idField, entity) => {
     return new Promise((resolve, reject) => {
-      var connection = createConnection();
-      var sql = `update ${tableName} set ? where ${idField} = ?`;
-      connection.connect();
-      connection.query(sql, [entity, id], (error, results, fields) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(results.changedRows);
-        }
-        connection.end();
-      });
+
+      if (entity[idField]) {
+        const id = entity[idField];
+        delete entity[idField];
+
+        var connection = createConnection();
+        var sql = `update ${tableName} set ? where ${idField} = ?`;
+        connection.connect();
+        connection.query(sql, [entity, id], (error, results, fields) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results.changedRows);
+          }
+          connection.end();
+        });
+      }
     });
   }
 

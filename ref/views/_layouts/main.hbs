@@ -58,17 +58,22 @@
     </div>
   </div> --}}
 
-  <div class="container mt-4">
+  <div class="container-fluid mt-4">
     <div class="row">
       <div class="col-sm-3">
         <div class="card shadow">
-          <div class="card-header">
-            Featured
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+          <h5 class="card-header">
+            Categories
+          </h5>
+          <div class="list-group">
+            {{#each lcCategories}}
+            <a href="/categories/{{CatID}}/products" class="list-group-item list-group-item-action {{#if isActive}} active {{/if}}">
+              {{CatName}}
+              {{#if num_of_products}}
+                <span class="badge badge-danger float-right">{{num_of_products}}</span>
+              {{/if}}
+            </a>
+            {{/each}}
           </div>
         </div>
         <div class="card shadow mt-3">
@@ -78,7 +83,7 @@
           <div class="card-body">
             <h5 class="card-title">Special title treatment</h5>
             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <a href="#" class="btn btn-primary btn-block">Go somewhere</a>
           </div>
         </div>
       </div>
@@ -90,7 +95,8 @@
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
       <div class="row">
         <div class="col-12 col-md">
-          <img class="mb-2" src="https://getbootstrap.com/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
+          <img class="mb-2" src="https://getbootstrap.com/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="24"
+            height="24">
           <small class="d-block mb-3 text-muted">© 2017-2019</small>
         </div>
         <div class="col-6 col-md">

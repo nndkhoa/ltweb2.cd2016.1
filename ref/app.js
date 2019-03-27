@@ -1,7 +1,7 @@
 var express = require('express');
 var exphbs = require('express-handlebars');
 var morgan = require('morgan');
-var bodyParser = require('body-parser');
+var numeral = require('numeral');
 var createError = require('http-errors');
 
 var app = express();
@@ -10,16 +10,20 @@ app.use(morgan('dev'));
 app.engine('hbs', exphbs({
   layoutsDir: 'views/_layouts',
   defaultLayout: 'main.hbs',
+  helpers: {
+    format: val => numeral(val).format('0,0'),
+  }
 }));
 app.set('view engine', 'hbs');
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({
+app.use(express.static('public'));
+
+app.use(express.urlencoded({
   extended: true
 }));
+app.use(express.json());
 
-// parse application/json
-app.use(bodyParser.json());
+app.use(require('./middlewares/categories'));
 
 app.use('/categories', require('./routes/categories'));
 
