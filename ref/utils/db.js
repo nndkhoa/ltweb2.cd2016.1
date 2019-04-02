@@ -60,6 +60,22 @@ module.exports = {
         });
       }
     });
+  },
+
+  delete: (tableName, idField, id) => {
+    return new Promise((resolve, reject) => {
+      var connection = createConnection();
+      var sql = `delete from ${tableName} where ${idField} = ?`;
+      connection.connect();
+      connection.query(sql, id, (error, results, fields) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results.affectedRows);
+        }
+        connection.end();
+      });
+    });
   }
 
   // load: (sql, fn) => {

@@ -56,6 +56,12 @@ router.post('/update', (req, res, next) => {
   }).catch(next);
 })
 
+router.post('/delete', (req, res, next) => {
+  categoryModel.delete(+req.body.CatID).then(n => {
+    res.redirect('/categories');
+  }).catch(next);
+})
+
 router.get('/:id/products', (req, res, next) => {
   var vm = {
     error: true

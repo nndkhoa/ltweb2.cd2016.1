@@ -29,5 +29,12 @@ module.exports = {
    */
   update: entity => {
     return db.update('categories', 'CatID', entity);
-  }
+  },
+
+  /**
+   * @param {*} entity { CatID, CatName }
+   */
+  delete: id => {
+    return db.delete('categories', 'CatID', id);
+  },
 };

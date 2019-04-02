@@ -25,6 +25,10 @@
         List
       </a>
       {{#unless this.error}}
+      <button type="submit" class="btn btn-danger" formaction="/categories/delete">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+        Delete
+      </button>
       <button type="submit" class="btn btn-success">
         <i class="fa fa-check" aria-hidden="true"></i>
         Save
