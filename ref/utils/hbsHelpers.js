@@ -1,0 +1,48 @@
+var numeral = require('numeral');
+
+module.exports = {
+
+  format: (val, options) => numeral(val).format('0,0'),
+
+  substr: (length, context, options) => {
+    if (context.length > length) {
+      return context.substring(0, length) + '...';
+    }
+
+    return context;
+  },
+
+  ifIn: (ele, list, options) => {
+    if (list.includes(ele))
+      return options.fn(this);
+
+    return options.inverse(this);
+  },
+
+  xif: (v1, operator, v2, options) => {
+    switch (operator) {
+      case '==':
+        return (v1 == v2) ? options.fn(this) : options.inverse(this);
+      case '===':
+        return (v1 === v2) ? options.fn(this) : options.inverse(this);
+      case '!==':
+        return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+      case '!=':
+        return (v1 != v2) ? options.fn(this) : options.inverse(this);
+      case '<':
+        return (v1 < v2) ? options.fn(this) : options.inverse(this);
+      case '<=':
+        return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+      case '>':
+        return (v1 > v2) ? options.fn(this) : options.inverse(this);
+      case '>=':
+        return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+      case '&&':
+        return (v1 && v2) ? options.fn(this) : options.inverse(this);
+      case '||':
+        return (v1 || v2) ? options.fn(this) : options.inverse(this);
+      default:
+        return options.inverse(this);
+    }
+  },
+};

@@ -1,7 +1,7 @@
 var express = require('express');
 var exphbs = require('express-handlebars');
 var morgan = require('morgan');
-var numeral = require('numeral');
+// var numeral = require('numeral');
 var createError = require('http-errors');
 
 var app = express();
@@ -10,9 +10,10 @@ app.use(morgan('dev'));
 app.engine('hbs', exphbs({
   layoutsDir: 'views/_layouts',
   defaultLayout: 'main.hbs',
-  helpers: {
-    format: val => numeral(val).format('0,0'),
-  }
+  helpers: require('./utils/hbsHelpers')
+  // helpers: {
+  //   format: val => numeral(val).format('0,0'),
+  // }
 }));
 app.set('view engine', 'hbs');
 
