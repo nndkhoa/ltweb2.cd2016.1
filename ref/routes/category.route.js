@@ -1,7 +1,10 @@
 var express = require('express');
 
+var config = require('../config/');
 var categoryModel = require('../models/category.model');
 var productModel = require('../models/product.model');
+var { setActiveCategory } = require('../utils/locals.helper');
+var buildPgSettings = require('../utils/pagination.helper');
 
 var router = express.Router();
 
@@ -73,24 +76,54 @@ router.get('/:id/products', (req, res, next) => {
     return;
   }
 
-  productModel.allByCat(id)
-    .then(rows => {
+  var limit = config['paginate'].default;
+  var page = req.query.page || 1;
+  if (page < 1) page = 1;
+  var offset = (page - 1) * limit;
 
-      res.locals.lcCategories.map(c => {
-        if (c.CatID === +id)
-          c.isActive = true;
+  Promise.all([
+    productModel.pageByCat(id, offset),
+    productModel.countByCat(id)
+  ]).then(([rows, count_rows]) => {
 
-        return c;
-      });
+    setActiveCategory(res.locals.lcCategories, +id);
+    var pgSettings = buildPgSettings(+page, count_rows[0].total);
+    console.log(pgSettings);
 
-      vm = {
-        error: false,
-        empty: rows.length === 0,
-        products: rows
-      }
-      res.render('vwProducts/byCat', vm);
-    })
-    .catch(next);
+    vm = {
+      error: false,
+      empty: rows.length === 0,
+      products: rows,
+      pgSettings
+    }
+    res.render('vwProducts/byCat', vm);
+  }).catch(next);
 })
+
+// router.get('/:id/products', (req, res, next) => {
+//   var vm = {
+//     error: true
+//   }
+
+//   var id = req.params.id;
+//   if (isNaN(id)) {
+//     res.render('vwProducts/byCat', vm);
+//     return;
+//   }
+
+//   productModel.allByCat(id)
+//     .then(rows => {
+
+//       setActiveCategory(res.locals.lcCategories, +id);
+
+//       vm = {
+//         error: false,
+//         empty: rows.length === 0,
+//         products: rows
+//       }
+//       res.render('vwProducts/byCat', vm);
+//     })
+//     .catch(next);
+// })
 
 module.exports = router;

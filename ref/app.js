@@ -26,7 +26,8 @@ app.use(express.json());
 
 app.use(require('./middlewares/categories'));
 
-app.use('/categories', require('./routes/categories'));
+app.use('/categories', require('./routes/category.route'));
+app.use('/products', require('./routes/product.route'));
 
 app.get('/', (req, res) => {
   res.render('home');

@@ -3,7 +3,11 @@
     Products
   </h5>
   <div class="card-body">
-    {{#if this.empty}}
+    {{#if this.error}}
+    <div class="alert alert-danger" role="alert">
+      Invalid categoryId. <a href="/" class="alert-link">Click here to go Home</a>.
+    </div>
+    {{else if this.empty}}
     No products.
     {{else}}
     <div class="row">
@@ -17,7 +21,7 @@
             <p class="card-text">{{TinyDes}}</p>
           </div>
           <div class="card-footer">
-            <a href="javascript:;" class="btn btn-outline-primary btn-sm" title="View details">
+            <a href="/products/{{ProID}}" class="btn btn-outline-primary btn-sm" title="View details">
               <i class="fa fa-eye" aria-hidden="true"></i>
               Details
             </a>
@@ -34,14 +38,17 @@
       <div class="col-sm-12">
         <nav aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            <li class="page-item {{#unless this.pgSettings.hasPrevPage }} disabled {{/unless}}">
+              {{!-- <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a> --}}
+              <a class="page-link" href="?page={{this.pgSettings.prevPage}}">Previous</a>
             </li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#">Next</a>
+            {{#each this.pgSettings.page_numbers}}
+            <li class="page-item {{#if isCurrentPage }} active {{/if}}">
+              <a class="page-link" href="?page={{value}}">{{value}}</a>
+            </li>
+            {{/each}}
+            <li class="page-item {{#unless this.pgSettings.hasNextPage }} disabled {{/unless}}">
+              <a class="page-link" href="?page={{this.pgSettings.nextPage}}">Next</a>
             </li>
           </ul>
         </nav>

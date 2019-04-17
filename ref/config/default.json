@@ -1,0 +1,13 @@
+{
+  "mysql": {
+    "host": "localhost",
+    "port": 8889,
+    "user": "root",
+    "password": "root",
+    "database": "qlbh"
+  },
+  "paginate": {
+    "default": 6,
+    "max": 50
+  }
+}
