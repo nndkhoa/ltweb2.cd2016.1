@@ -1,0 +1,143 @@
+{{#section 'js'}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script>
+
+  // https://jqueryvalidation.org/validate/
+
+  $.validator.addMethod('validDate', function (value, element) {
+    return this.optional(element) || moment(value, 'DD/MM/YYYY').isValid();
+  }, 'Please enter a valid date in the format DD/MM/YYYY');
+
+  $(function () {
+    $('#registerForm').validate({
+      
+      onkeyup: false,
+
+      rules: {
+        username: {
+          required: true,
+          remote: {
+            url: '/account/is-available',
+            data: {
+              user: function () {
+                return $('#username').val();
+              }
+            }
+          }
+        },
+        password: {
+          required: true,
+          minlength: 6
+        },
+        confirm: {
+          required: true,
+          equalTo: $('[name="password"]')
+        },
+        fullName: {
+          required: true,
+        },
+        email: {
+          required: true,
+          email: true
+        },
+        dob: {
+          required: true,
+          validDate: true
+        },
+      },
+
+      messages: {
+        username: {
+          required: 'Your username is required.',
+          remote: 'Your username has been taken, please take another.'
+        },
+        password: {
+          required: 'Your password is required.',
+          minlength: 'Your password must have at least 6 characters.'
+        },
+        confirm: {
+          required: 'Your password does not match.',
+          equalTo: 'Your password does not match.'
+        },
+        fullName: {
+          required: 'Valid full name is required.',
+        },
+        email: {
+          required: 'Please enter a valid email address.',
+          email: 'Please enter a valid email address.'
+        },
+        dob: {
+          required: 'Valid date of birth is required.',
+        },
+      },
+
+      highlight: function (element) { // hightlight error inputs
+        $(element).removeClass('is-valid').addClass('is-invalid');
+      },
+
+      unhighlight: function (element) {
+        $(element).removeClass('is-invalid').addClass('is-valid');
+      },
+
+      validClass: 'is-valid',
+      errorElement: 'small',
+      errorClass: 'help-block text-danger',
+    });
+  });
+</script>
+{{/section}}
+
+<div class="card shadow">
+  <h5 class="card-header">
+    Account Register
+  </h5>
+  <div class="card-body">
+    <form id="registerForm" novalidate method="POST">
+      <h5 class="mb-3">Account</h5>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" name="username" placeholder="Username" required
+            autofocus>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" name="password" required pattern="^\S{6,}$">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="confirm">Confirm</label>
+          <input type="password" class="form-control" name="confirm" required>
+        </div>
+      </div>
+
+      <hr class="mb-4">
+      <h5 class="mb-3">Your Information</h5>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="fullName">Full name</label>
+          <input type="text" class="form-control" name="fullName" placeholder="" value="" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" name="email" placeholder="you@example.com" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="dob">Date of birth</label>
+          <input type="text" class="form-control" name="dob" placeholder="" value="" required>
+        </div>
+      </div>
+
+      <hr class="mb-4">
+      <button class="btn btn-primary btn-lg btn-block" type="submit">
+        <i class="fa fa-check" aria-hidden="true"></i>
+        Continue to register
+      </button>
+    </form>
+
+  </div>
+</div>

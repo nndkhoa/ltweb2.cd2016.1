@@ -9,5 +9,8 @@
   "paginate": {
     "default": 6,
     "max": 50
+  },
+  "authenticate": {
+    "saltRounds": 10
   }
 }

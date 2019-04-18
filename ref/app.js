@@ -10,7 +10,7 @@ app.use(morgan('dev'));
 app.engine('hbs', exphbs({
   layoutsDir: 'views/_layouts',
   defaultLayout: 'main.hbs',
-  helpers: require('./utils/hbsHelpers')
+  helpers: require('./utils/hbsHelpers'),
   // helpers: {
   //   format: val => numeral(val).format('0,0'),
   // }
@@ -28,6 +28,7 @@ app.use(require('./middlewares/categories'));
 
 app.use('/categories', require('./routes/category.route'));
 app.use('/products', require('./routes/product.route'));
+app.use('/account', require('./routes/account.route'));
 
 app.get('/', (req, res) => {
   res.render('home');

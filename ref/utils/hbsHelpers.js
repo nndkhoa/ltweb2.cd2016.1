@@ -1,6 +1,9 @@
 var numeral = require('numeral');
+var hbs_sections = require('express-handlebars-sections');
 
 module.exports = {
+
+  section: hbs_sections(),
 
   format: (val, options) => numeral(val).format('0,0'),
 
