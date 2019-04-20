@@ -9,9 +9,7 @@ var mysql = require('mysql');
 //   database: 'qlbh',
 // });
 
-var createConnection = () => mysql.createConnection(
-  config['mysql']
-);
+var createConnection = () => mysql.createConnection(config['mysql']);
 
 module.exports = {
   load: sql => {

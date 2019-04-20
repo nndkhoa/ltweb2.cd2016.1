@@ -9,7 +9,7 @@ module.exports = {
     return db.load(`select * from users where f_ID = ${id}`);
   },
 
-  singleByName: name => {
+  singleByUserName: name => {
     return db.load(`select * from users where f_Username = '${name}'`);
   },
 

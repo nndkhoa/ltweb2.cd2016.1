@@ -1,7 +1,8 @@
-var numeral = require('numeral');
+var exphbs = require('express-handlebars');
 var hbs_sections = require('express-handlebars-sections');
+var numeral = require('numeral');
 
-module.exports = {
+var helpers = {
 
   section: hbs_sections(),
 
@@ -48,4 +49,13 @@ module.exports = {
         return options.inverse(this);
     }
   },
+};
+
+module.exports = app => {
+  app.engine('hbs', exphbs({
+    layoutsDir: 'views/_layouts',
+    defaultLayout: 'main.hbs',
+    helpers
+  }));
+  app.set('view engine', 'hbs');
 };

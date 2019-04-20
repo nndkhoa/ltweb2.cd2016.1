@@ -60,25 +60,35 @@
           </div>
         </div>
       </form> --}}
+
+      <form action="/account/logout" id="frmSignout" method="POST"></form>
       <ul class="navbar-nav">
+        {{#if isAuthenticated}}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Hi, <strong>{{authUser.f_Name}}</strong>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/account/profile">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              Profile
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="javascript: $('#frmSignout').submit();">
+              <i class="fa fa-sign-out" aria-hidden="true"></i>
+              Sign out
+            </a>
+          </div>
+        </li>
+        {{else}}
         <li class="nav-item">
           <a class="nav-link" href="/account/register">Register</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/account/login">Sign In</a>
         </li>
-        {{!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Dropdown
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li> --}}
+        {{/if}}
       </ul>
     </div>
   </nav>

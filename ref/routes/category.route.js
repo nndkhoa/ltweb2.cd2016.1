@@ -88,7 +88,6 @@ router.get('/:id/products', (req, res, next) => {
 
     setActiveCategory(res.locals.lcCategories, +id);
     var pgSettings = buildPgSettings(+page, count_rows[0].total);
-    console.log(pgSettings);
 
     vm = {
       error: false,
