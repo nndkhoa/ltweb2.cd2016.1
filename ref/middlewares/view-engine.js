@@ -6,6 +6,8 @@ var helpers = {
 
   section: hbs_sections(),
 
+  json: (val, options) => `<pre>${JSON.stringify(val, null, 2)}</pre>`,
+
   format: (val, options) => numeral(val).format('0,0'),
 
   substr: (length, context, options) => {

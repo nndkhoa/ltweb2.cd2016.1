@@ -18,10 +18,6 @@ app.get('/', (req, res) => {
   res.render('home');
 })
 
-app.get('/error', (req, res) => {
-  res.end('error');
-})
-
 require('./middlewares/error-handlers')(app);
 
 var port = process.env.PORT || 3000;
