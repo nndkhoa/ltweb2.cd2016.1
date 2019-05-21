@@ -5,6 +5,7 @@ var passport = require('passport');
 
 var config = require('../config/');
 var userModel = require('../models/user.model');
+var auth = require('../middlewares/auth');
 
 var router = express.Router();
 
@@ -39,11 +40,12 @@ router.post('/login', (req, res, next) => {
       });
     }
 
+    const retUrl = req.query.retUrl || '/';
     req.logIn(user, err => {
       if (err) {
         return next(err);
       }
-      return res.redirect('/');
+      return res.redirect(retUrl);
     });
 
   })(req, res, next);
@@ -53,7 +55,6 @@ router.post('/logout', (req, res, next) => {
   req.logout();
   res.redirect('/account/login');
 })
-
 
 router.get('/register', (req, res, next) => {
   if (req.user) {
@@ -87,6 +88,10 @@ router.get('/is-available', (req, res, next) => {
       res.json(false);
     else res.json(true);
   })
+})
+
+router.get('/profile', auth, (req, res, next) => {
+  res.end('PROFILE');
 })
 
 module.exports = router;

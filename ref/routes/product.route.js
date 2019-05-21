@@ -1,9 +1,38 @@
 var express = require('express');
 
+var categoryModel = require('../models/category.model');
 var productModel = require('../models/product.model');
 var { setActiveCategory } = require('../utils/locals.helper');
 
 var router = express.Router();
+
+router.get('/add', (req, res, next) => {
+  categoryModel.all().then(rows => {
+    // const icons = [
+    //   'fa-book',
+    //   'fa-phone',
+    //   'fa-camera',
+    //   'fa-female',
+    //   'fa-desktop',
+    //   'fa-diamond',
+    //   'fa-hashtag',
+    // ];
+
+    // for (i = 0; i < icons.length; i++) {
+    //   rows[i].CatIcon = icons[i];
+    // }
+
+    res.render('vwProducts/add', {
+      categories: rows
+    });
+  })
+})
+
+router.post('/add', (req, res, next) => {
+  productModel.add(req.body).then(id => {
+    res.render('vwProducts/add');
+  }).catch(next);
+})
 
 router.get('/:id', (req, res, next) => {
   const viewName = 'vwProducts/detail';

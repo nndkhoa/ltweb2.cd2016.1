@@ -1,5 +1,7 @@
-var config = require('../config/');
-var mysql = require('mysql');
+const mysql = require('mysql');
+const pick = require('lodash/pick');
+const omit = require('lodash/omit');
+const config = require('../config/');
 
 // var createConnection = () => mysql.createConnection({
 //   host: 'localhost',
@@ -46,22 +48,26 @@ module.exports = {
   update: (tableName, idField, entity) => {
     return new Promise((resolve, reject) => {
 
-      if (entity[idField]) {
-        const id = entity[idField];
-        delete entity[idField];
+      // if (entity[idField]) {
+      // const id = entity[idField];
+      // delete entity[idField];
+      const condition = pick(entity, [idField]);
+      entity = omit(entity, [idField]);
 
-        var connection = createConnection();
-        var sql = `update ${tableName} set ? where ${idField} = ?`;
-        connection.connect();
-        connection.query(sql, [entity, id], (error, results, fields) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(results.changedRows);
-          }
-          connection.end();
-        });
-      }
+      var connection = createConnection();
+      // var sql = `update ${tableName} set ? where ${idField} = ?`;
+      var sql = `update ${tableName} set ? where ?`;
+      connection.connect();
+      // connection.query(sql, [entity, id], (error, results, fields) => {
+      connection.query(sql, [entity, condition], (error, results, fields) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results.changedRows);
+        }
+        connection.end();
+      });
+      // }
     });
   },
 

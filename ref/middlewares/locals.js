@@ -13,14 +13,14 @@ var middlewares = [
   (req, res, next) => {
     var data = cache.get('globalCategories');
     if (!data) {
-      console.log('-- fetch `globalCategories`');
+      // console.log('-- fetch `globalCategories`');
       categoryModel.allWithDetails().then(rows => {
         cache.set('globalCategories', rows);
         res.locals.lcCategories = rows;
         next();
       }).catch(next);
     } else {
-      console.log('-- cache hit for `globalCategories`');
+      // console.log('-- cache hit for `globalCategories`');
       data.map(c => {
         delete c.isActive;
       });
