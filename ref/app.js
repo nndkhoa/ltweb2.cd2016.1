@@ -13,6 +13,7 @@ require('./middlewares/session')(app);
 require('./middlewares/passport')(app);
 require('./middlewares/locals')(app);
 require('./middlewares/routes')(app);
+require('./middlewares/upload')(app);
 
 app.get('/', (req, res) => {
   res.render('home');

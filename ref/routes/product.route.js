@@ -8,20 +8,6 @@ var router = express.Router();
 
 router.get('/add', (req, res, next) => {
   categoryModel.all().then(rows => {
-    // const icons = [
-    //   'fa-book',
-    //   'fa-phone',
-    //   'fa-camera',
-    //   'fa-female',
-    //   'fa-desktop',
-    //   'fa-diamond',
-    //   'fa-hashtag',
-    // ];
-
-    // for (i = 0; i < icons.length; i++) {
-    //   rows[i].CatIcon = icons[i];
-    // }
-
     res.render('vwProducts/add', {
       categories: rows
     });
@@ -29,9 +15,8 @@ router.get('/add', (req, res, next) => {
 })
 
 router.post('/add', (req, res, next) => {
-  productModel.add(req.body).then(id => {
-    res.render('vwProducts/add');
-  }).catch(next);
+  console.log(req.body);
+  res.end('ADD PRODUCT');
 })
 
 router.get('/:id', (req, res, next) => {
